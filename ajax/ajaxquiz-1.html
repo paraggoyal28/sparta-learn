@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>jQuery Quiz</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <style type="text/css">
+      div.question-box {
+        margin: 10px 0 20px 0;
+      }
+
+      table {
+        border: 1px solid;
+        border-collapse: collapse;
+      }
+
+      td,
+      th {
+        padding: 10px;
+        border: 1px solid;
+      }
+
+      .urgent {
+        color: red;
+        font-weight: bold;
+      }
+    </style>
+
+    <script>
+      function q1() {
+        $("#names-q1").empty();
+        $.ajax({
+          type: "GET",
+          url: "http://spartacodingclub.shop/sparta_api/citybike",
+          data: {},
+          success: function (response) {
+            let rows = response["getStationList"]["row"];
+            for (const element of rows) {
+              let rack_name = element["stationName"];
+              let rack_cnt = element["rackTotCnt"];
+              let bike_cnt = element["parkingBikeTotCnt"];
+              let tmp_html;
+              if (bike_cnt < 5) {
+                tmp_html = `
+                    <tr class="urgent">
+                            <td>${rack_name}</td>
+                            <td>${rack_cnt}</td>
+                            <td>${bike_cnt}</td>
+                        </tr>
+                `;
+              } else {
+                tmp_html = `
+                        <tr>
+                            <td>${rack_name}</td>
+                            <td>${rack_cnt}</td>
+                            <td>${bike_cnt}</td>
+                        </tr>
+                    `;
+              }
+              $("#names-q1").append(tmp_html);
+            }
+          },
+        });
+      }
+    </script>
+  </head>
+
+  <body>
+    <h1>Practice jQuery + Ajax</h1>
+
+    <hr />
+
+    <div class="question-box">
+      <h2>2. Practice using the CityBike API</h2>
+      <p>Show me the current status of all bikes</p>
+      <p>
+        Update the data below with the latest data everytime the "Update" button
+        is clicked
+      </p>
+      <button onclick="q1()">Update</button>
+      <table>
+        <thead>
+          <tr>
+            <td>Bike Stand Location</td>
+            <td>Bike Stand Count</td>
+            <td>Parked Bike Count</td>
+          </tr>
+        </thead>
+        <tbody id="names-q1"></tbody>
+      </table>
+    </div>
+  </body>
+</html>
