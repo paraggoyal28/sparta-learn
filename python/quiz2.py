@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-client = MongoClient('mongodb+srv://test:sparta@cluster0.cwjznmx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+client = MongoClient('mongodb+srv://<user>:<password>@cluster0.cwjznmx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 db = client.dbsparta
 
 # Rating of movie titled The Matrix
