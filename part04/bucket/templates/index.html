@@ -88,6 +88,9 @@
       .mybox > li > h2.done {
         text-decoration: line-through;
       }
+      .right {
+        margin-left: 10px;
+      }
       
     </style>
     <script>
@@ -119,11 +122,25 @@
                                 >
                                     Done
                                 </button>
+                                <button
+                                onclick="delete_bucket(${num})"
+                                type="button"
+                                class="btn btn-outline-danger right"
+                                >
+                                    Delete
+                                </button>
                             </li>
                         `;
                 } else {
                     tmp_html = `<li>
                                 <h2 class="done">✅ ${bucket_title}</h2>
+                                 <button
+                                onclick="delete_bucket(${num})"
+                                type="button"
+                                class="btn btn-outline-danger"
+                                >
+                                    Delete
+                                </button>
                             </li>
                         `;
                 }
@@ -146,6 +163,19 @@
           },
         });
       }
+      
+      function delete_bucket(num) {
+        $.ajax({
+          type: "POST",
+          url: "/bucket/delete",
+          data: { bucket_num: num },
+          success: function (response) {
+            alert(response["msg"]);
+            window.location.reload();
+          },
+        });
+      }
+
       function done_bucket(num) {
         $.ajax({
           type: "POST",
